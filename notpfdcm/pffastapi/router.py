@@ -10,11 +10,20 @@ import os
 import socket
 
 
-def create_description_router(name, about, version) -> APIRouter:
+def create_description_router(name: str, about: str, version: str,
+                              tags: List[str] = None) -> APIRouter:
     """
     Example on how to create some predefined routes (hello and about)
     which produces data that can be set per-instance and is constant
     within an instance.
+
+    The traditional (and more legible) paradigm is to create one router
+    at the module level which is imported by the client app, as
+    demonstrated in ../routes/dicom.py
+    This code here demonstrates how to create a router factory/constructor
+    function which creates router instances, escaping the singleton pattern.
+    Thus, data can be defined by the module of the router's client instead
+    of being hard-coded here in the router endpoint definitions.
     """
     # ========== ========== ========== ==========
     # DEFINE RESPONSE DATA MODELS
@@ -24,6 +33,9 @@ def create_description_router(name, about, version) -> APIRouter:
     # https://bugs.python.org/issue43380
     # We want to create the AboutModel class in the scope of this function
     # so that its constant response can be generated in the interactive docs
+
+    if tags is None:
+        tags = ['pffastapi descriptions']
 
     about_name = name
     about_about = about
@@ -74,7 +86,7 @@ def create_description_router(name, about, version) -> APIRouter:
 
     @router.get(
         '/about/',
-        tags=['pffastapi'],
+        tags=tags,
         response_model=AboutModel)
     async def read_about():
         """
@@ -84,7 +96,7 @@ def create_description_router(name, about, version) -> APIRouter:
 
     @router.get(
         '/hello/',
-        tags=['pffastapi'],
+        tags=tags,
         response_model=HelloModel
     )
     async def read_hello(echoBack: Optional[str] = Query(None, description='something to print back verbatim')):
