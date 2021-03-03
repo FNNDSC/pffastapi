@@ -15,7 +15,7 @@ docker run --rm -p 8000:8000 local/notpfdcm
 ### Development
 
 ```bash
-docker run --rm -p 8000:8000 -v $PWD/notpfdcm:/app:ro  local/notpfdcm /start-reload.sh
+docker run --rm -it -p 8000:8000 -v $PWD/notpfdcm:/app:ro  local/notpfdcm /start-reload.sh
 ```
 
 See http://localhost:8000/docs
