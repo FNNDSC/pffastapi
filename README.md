@@ -8,11 +8,17 @@ docker build -t local/notpfdcm .
 
 ### Run
 
+Production server with worker auto-tuning
+
 ```bash
 docker run --rm -p 8000:8000 local/notpfdcm
 ```
 
 ### Development
+
+Colorful, <kbd>Ctrl-C</kbd>-able server with live/hot reload.
+You do not need to restart the server after changing source code.
+Changes are applied automatically when the file is saved to disk.
 
 ```bash
 docker run --rm -it -p 8000:8000 -v $PWD/notpfdcm:/app:ro  local/notpfdcm /start-reload.sh
